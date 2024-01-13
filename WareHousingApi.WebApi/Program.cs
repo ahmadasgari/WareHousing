@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WareHousingApi.DataModel;
+using WareHousingApi.DataModel.Services.Interface;
+using WareHousingApi.DataModel.Services.Repository;
 using WareHousingApi.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,7 @@ builder.Services.AddDbContextService(configuration);
 
 //Identity
 builder.Services.AddIdentityService(configuration);
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +29,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

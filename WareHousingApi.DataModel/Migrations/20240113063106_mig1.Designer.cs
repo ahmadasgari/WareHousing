@@ -12,7 +12,7 @@ using WareHousingApi.DataModel;
 namespace WareHousingApi.DataModel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240107084450_mig1")]
+    [Migration("20240113063106_mig1")]
     partial class mig1
     {
         /// <inheritdoc />
@@ -249,6 +249,85 @@ namespace WareHousingApi.DataModel.Migrations
                     b.ToTable("users_tbl", (string)null);
                 });
 
+            modelBuilder.Entity("WareHousingApi.DataModel.Entities.Country", b =>
+                {
+                    b.Property<int>("CountryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CountryId"));
+
+                    b.Property<string>("CountryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CountryId");
+
+                    b.ToTable("Countries_tbl");
+                });
+
+            modelBuilder.Entity("WareHousingApi.DataModel.Entities.Products", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
+
+                    b.Property<int>("CountInPacking")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<byte>("IsRefregerator")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int?>("PackingType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductWeight")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SuplierId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("SuplierId");
+
+                    b.ToTable("Products_tbl");
+                });
+
+            modelBuilder.Entity("WareHousingApi.DataModel.Entities.Supplier", b =>
+                {
+                    b.Property<int>("SupplierId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierId"));
+
+                    b.Property<string>("SupplierName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SupplierTell")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WebSite")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SupplierId");
+
+                    b.ToTable("Suppliers_tbl");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("WareHousingApi.DataModel.Entities.ApplicationRoles", null)
@@ -298,6 +377,25 @@ namespace WareHousingApi.DataModel.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WareHousingApi.DataModel.Entities.Products", b =>
+                {
+                    b.HasOne("WareHousingApi.DataModel.Entities.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WareHousingApi.DataModel.Entities.Supplier", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SuplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Supplier");
                 });
 #pragma warning restore 612, 618
         }

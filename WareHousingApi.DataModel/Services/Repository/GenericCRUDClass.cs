@@ -16,6 +16,7 @@ namespace WareHousingApi.DataModel.Services.Repository
         public GenericCRUDClass(ApplicationDbContext context)
         {
             _context = context;
+            _table = context.Set<Tentity>(); 
         }
 
         public virtual void Create(Tentity entity)

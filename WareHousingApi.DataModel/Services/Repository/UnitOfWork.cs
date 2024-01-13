@@ -16,7 +16,7 @@ namespace WareHousingApi.DataModel.Services.Repository
         {
                 _context = context;
         }
-        private GenericCRUDClass<ApplicationUsers> _userManager;
+        private GenericCRUDClass<ApplicationUsers> _userManager;  
         private GenericCRUDClass<ApplicationRoles> _roleManager;
         private GenericCRUDClass<Products> _product;
         private GenericCRUDClass<Supplier> _supplier;
